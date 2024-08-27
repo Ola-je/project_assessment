@@ -14,6 +14,7 @@ class GroceryRepositoryImpl implements GroceryRepository {
     try {
       return await remoteDataSource.getGroceries();
     } catch (e) {
+      print('from repository: $e');
       throw Exception('Failed to get groceries: $e');
     }
   }
