@@ -1,4 +1,4 @@
-class Product {
+class GroceryEntity {
   final String id;
   final String title;
   final String imageUrl;
@@ -8,7 +8,7 @@ class Product {
   final String description;
   final List<Option> options;
 
-  Product({
+  GroceryEntity({
     required this.id,
     required this.title,
     required this.imageUrl,
@@ -19,8 +19,8 @@ class Product {
     required this.options,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
+  factory GroceryEntity.fromJson(Map<String, dynamic> json) {
+    return GroceryEntity(
       id: json['id'],
       title: json['title'],
       imageUrl: json['imageUrl'],
