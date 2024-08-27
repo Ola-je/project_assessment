@@ -7,11 +7,6 @@ class GetGroceriesUseCase {
   GetGroceriesUseCase(this.repository);
 
   Future<List<GroceryEntity>> execute() async {
-    try {
-      final groceries = await repository.getGroceries();
-      return groceries;
-    } catch (e) {
-      throw Exception('Failed to load groceries');
-    }
+    return await repository.getGroceries();
   }
 }

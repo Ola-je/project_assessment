@@ -7,11 +7,6 @@ class GetGroceryByIdUseCase {
   GetGroceryByIdUseCase(this.repository);
 
   Future<GroceryEntity> execute(String id) async {
-    try {
-      final grocery = await repository.getGroceryById(id);
-      return grocery;
-    } catch (e) {
-      throw Exception('Failed to load grocery');
-    }
+    return await repository.getGroceryById(id);
   }
 }
