@@ -4,6 +4,7 @@ import 'package:project_assessment/domain/entity/grocery_entity.dart';
 import 'package:project_assessment/presentation/bloc/grocery_bloc.dart';
 import 'package:project_assessment/presentation/bloc/grocery_event.dart';
 import 'package:project_assessment/presentation/bloc/grocery_state.dart';
+import 'package:project_assessment/presentation/pages/basket_page.dart';
 import 'package:project_assessment/presentation/widgets/cards.dart';
 
 class HomePage extends StatelessWidget {
@@ -75,6 +76,17 @@ class HomePage extends StatelessWidget {
                   },
                 ),
               ),
+              Align(alignment: Alignment.bottomRight,
+              child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => BasketPage(),
+                  ));
+                },
+                child: Icon(Icons.shopping_cart),
+              ),
+              )
+             
             ],
           ),
         ),

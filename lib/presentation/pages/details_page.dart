@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project_assessment/domain/entity/grocery_entity.dart';
+import 'package:project_assessment/presentation/widgets/bascket_manager.dart'; // Import your BasketManager
 
 class DetailsPage extends StatefulWidget {
   final GroceryEntity grocery;
@@ -36,7 +37,7 @@ class _DetailsPageState extends State<DetailsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: 300, 
+                height: 300,
                 child: Stack(
                   children: [
                     Positioned.fill(
@@ -44,19 +45,18 @@ class _DetailsPageState extends State<DetailsPage> {
                         borderRadius: BorderRadius.circular(16),
                         child: Image.network(
                           widget.grocery.imageUrl,
-                          fit: BoxFit.cover, 
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
-
                     Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: IconButton(
-                          icon: Icon(Icons.arrow_back, color: Colors.black), 
+                          icon: Icon(Icons.arrow_back, color: Colors.black),
                           onPressed: () {
-                            Navigator.of(context).pop(); 
+                            Navigator.of(context).pop();
                           },
                         ),
                       ),
@@ -69,8 +69,7 @@ class _DetailsPageState extends State<DetailsPage> {
                           backgroundColor: Colors.white,
                           child: IconButton(
                             icon: Icon(Icons.favorite_border, color: Colors.red),
-                            onPressed: () {
-                            },
+                            onPressed: () {},
                           ),
                         ),
                       ),
@@ -79,7 +78,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(25.0), 
+                padding: const EdgeInsets.all(25.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -87,17 +86,33 @@ class _DetailsPageState extends State<DetailsPage> {
                       widget.grocery.title,
                       style: const TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.bold, 
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 8.0),
-                    Text(
-                      '${widget.grocery.price.toString()} €',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.red, 
-                      ),
+                    Row(
+                      children: [
+                        if (widget.grocery.price != widget.grocery.discount)
+                          Text(
+                            '${widget.grocery.price.toString()} €',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                        if (widget.grocery.price != widget.grocery.discount)
+                          const SizedBox(width: 8.0),
+                        Text(
+                          '${widget.grocery.discount.toString()} €',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 8.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -107,7 +122,7 @@ class _DetailsPageState extends State<DetailsPage> {
                               Icons.star,
                               color: Color.fromARGB(255, 248, 224, 11),
                             ),
-                            const SizedBox(width: 8.0), 
+                            const SizedBox(width: 8.0),
                             Text(
                               '4.9',
                               style: const TextStyle(
@@ -115,7 +130,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            const SizedBox(width: 8.0), 
+                            const SizedBox(width: 8.0),
                             Text(
                               '(1.205)',
                               style: const TextStyle(
@@ -131,14 +146,14 @@ class _DetailsPageState extends State<DetailsPage> {
                             'See all reviews',
                             style: TextStyle(
                               fontSize: 14,
-                              color: Color.fromARGB(255, 50, 50, 50), 
-                              decoration: TextDecoration.underline, 
+                              color: Color.fromARGB(255, 50, 50, 50),
+                              decoration: TextDecoration.underline,
                             ),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16.0), 
+                    const SizedBox(height: 16.0),
                     Text(
                       widget.grocery.description,
                       maxLines: _isDescriptionExpanded ? null : 3,
@@ -149,7 +164,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                     if (widget.grocery.description.length > 100)
                       Align(
-                        alignment: Alignment.centerRight, 
+                        alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
                             setState(() {
@@ -181,7 +196,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      option.name, 
+                                      option.name,
                                       style: const TextStyle(
                                         fontSize: 16,
                                       ),
@@ -190,10 +205,10 @@ class _DetailsPageState extends State<DetailsPage> {
                                   Row(
                                     children: [
                                       Text(
-                                        '+${option.price}', 
+                                        '+${option.price}',
                                         style: const TextStyle(
                                           fontSize: 16,
-                                          color: Colors.black, 
+                                          color: Colors.black,
                                         ),
                                       ),
                                       Checkbox(
@@ -219,43 +234,84 @@ class _DetailsPageState extends State<DetailsPage> {
           ),
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(16.0),
+      floatingActionButton: Container(
+        margin: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.remove),
-                  onPressed: () {
-                    if (_quantity > 1) {
-                      setState(() {
-                        _quantity--;
-                      });
-                    }
-                  },
-                ),
-                Text('$_quantity', style: const TextStyle(fontSize: 16)),
-                IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {
-                    setState(() {
-                      _quantity++;
-                    });
-                  },
-                ),
-              ],
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                      icon: Icon(Icons.remove),
+                      onPressed: () {
+                        if (_quantity > 1) {
+                          setState(() {
+                            _quantity--;
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                  Text('$_quantity', style: const TextStyle(fontSize: 16)),
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () {
+                        setState(() {
+                          _quantity++;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
-            FloatingActionButton.extended(
-              onPressed: () {
-                // Add to basket functionality
-              },
-              label: const Text('Add to Basket'),
-              icon: const Icon(Icons.shopping_cart),
-              backgroundColor: const Color(0xFF3F51F3),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  BasketManager().addItem(widget.grocery); // Add item to basket
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${widget.grocery.title} added to basket'),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red, // Background color
+                  foregroundColor: Colors.white, // Text and icon color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 12.0), // Adjust the padding as needed
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.shopping_bag), // Icon
+                    SizedBox(width: 8.0), // Space between icon and text
+                    Text(
+                      'Add to Basket',
+                      style: TextStyle(fontSize: 16), // Text style
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

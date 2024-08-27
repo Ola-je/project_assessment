@@ -109,14 +109,18 @@ class Cards extends StatelessWidget {
               const SizedBox(height: 4.0),
               Row(
                 children: [
-                  const Icon(
-                    Icons.euro,
-                    color: Colors.red,
-                    size: 16.0,
-                  ),
-                  const SizedBox(width: 3.0),
+                  if (grocery.price != grocery.discount)
+                    Text(
+                      '€${grocery.price.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                    ),
+                  if (grocery.price != grocery.discount) const SizedBox(width: 8.0),
                   Text(
-                    grocery.price.toString(),
+                    '€${grocery.discount.toStringAsFixed(2)}',
                     style: const TextStyle(
                       color: Colors.red,
                       fontSize: 12,
